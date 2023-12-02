@@ -83,11 +83,12 @@ def importDiagrams():
                     orig_id = filename[:-5]
                     new_id = [x.diagram_id for x in dest_wm.diagrams if x.diagram_name == d_name][0]
                     diagram_id_map.update({orig_id: new_id})
+        return diagram_id_map
     except Exception as ex:
         arcpy.AddMessage(str(ex))
 
 
-def importJobTemplates():
+def importJobTemplates(diagram_id_map):
     # Import job templates
     try:
         arcpy.AddMessage(f'\n\n')
@@ -360,7 +361,7 @@ def importLookupStatus():
 
 
 if __name__ == '__main__':
-    importDiagrams()
-    importJobTemplates()
+    diagram_id_map = importDiagrams()
+    importJobTemplates(diagram_id_map)
     importEmailNotifications()
     importLookupStatus()
